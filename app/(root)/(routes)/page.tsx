@@ -1,6 +1,8 @@
 "use client"
 import { useEffect } from "react";
 
+// this is the page-trigger for modal create store
+
 import { useStoreModal } from "@/hooks/useStoreModal";
 
 
@@ -14,14 +16,7 @@ const SetupPage = () => {
         }
     }, [isOpen, onOpen])
 
-    return (
-        <>
-            <div className="px-6 py-4">
-                Root Page                              
-            </div>
-        </>
-     
-    )
+    return null
   }
 
   export default SetupPage;
