@@ -4,34 +4,33 @@ import { NextResponse } from "next/server";
 
 export async function GET(
     req: Request,
-    { params }: {params: { categoryId: string }}
+    { params }: {params: { sizeId: string }}
     ) {
         try {
-            if(!params.categoryId) {
-                return new NextResponse("Category id is required", { status: 400 })
+            if(!params.sizeId) {
+                return new NextResponse("Size id is required", { status: 400 })
             }
 
-            const category = await prismadb.category.findUnique({
+            const size = await prismadb.size.findUnique({
                 where: {
-                    id: params.categoryId,
+                    id: params.sizeId,
                 }
             })
 
-            return NextResponse.json(category)
+            return NextResponse.json(size)
         } catch (error) {
-            console.log('[CATEGORY_GET', error);
+            console.log('[SIZE_GET', error);
             return new NextResponse("Internal error", { status: 500 })
         }
 }
 
 export async function PATCH(
     req: Request,
-    { params }: {params: { storeId: string, categoryId: string }}
+    { params }: {params: { storeId: string, sizeId: string }}
     ) {
         try {
             const { userId } = auth()
-            // const { user } = useUser()
-            const { name, billboardId } = await req.json()
+            const { name, value } = await req.json()
 
             if(!userId) {
                 new NextResponse('Unauthenticated', { status: 401 })
@@ -41,12 +40,12 @@ export async function PATCH(
                 return new NextResponse("Name is required", { status: 400 })
             }
 
-            if(!billboardId) {
-                return new NextResponse("Billboard id is required", { status: 400 })
+            if(!value) {
+                return new NextResponse("Value is required", { status: 400 })
             }
 
-            if(!params.categoryId) {
-                return new NextResponse("Category id is required", { status: 400 })
+            if(!params.sizeId) {
+                return new NextResponse("Size id is required", { status: 400 })
             }
 
             const storeByUserId = await prismadb.store.findFirst({
@@ -60,37 +59,36 @@ export async function PATCH(
                 return new NextResponse("Unauthorized", { status: 403 })
             }
 
-            const category = await prismadb.category.updateMany({
+            const size = await prismadb.size.updateMany({
                 where: {
-                    id: params.categoryId
+                    id: params.sizeId
                 },
                 data: {
                     name,
-                    billboardId
+                    value
                 }
             })
 
-            return NextResponse.json(category)
+            return NextResponse.json(size)
         } catch (error) {
-            console.log('[CATEGORY_PATCH', error);
+            console.log('[SIZE_PATCH', error);
             return new NextResponse("Internal error", { status: 500 })
         }
 }
 
 export async function DELETE(
     req: Request,
-    { params }: {params: { storeId: string, categoryId: string }}
+    { params }: {params: { storeId: string, sizeId: string }}
     ) {
         try {
             const { userId } = auth()
-            // const { user } = useUser()
 
             if(!userId) {
                 new NextResponse('Unauthenticated', { status: 401 })
             }
 
-            if(!params.categoryId) {
-                return new NextResponse("Category id is required", { status: 400 })
+            if(!params.sizeId) {
+                return new NextResponse("Size id is required", { status: 400 })
             }
 
             const storeByUserId = await prismadb.store.findFirst({
@@ -105,15 +103,15 @@ export async function DELETE(
                 return new NextResponse("Unauthorized", { status: 403 })
             }
 
-            const category = await prismadb.category.delete({
+            const size = await prismadb.size.delete({
                 where: {
-                    id: params.categoryId,
+                    id: params.sizeId,
                 }
             })
 
-            return NextResponse.json(category)
+            return NextResponse.json(size)
         } catch (error) {
-            console.log('[CATEGORY_DELETE', error);
+            console.log('[SIZE_DELETE', error);
             return new NextResponse("Internal error", { status: 500 })
         }
 }
