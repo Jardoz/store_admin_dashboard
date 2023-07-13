@@ -28,11 +28,11 @@ const Billboards = async ({
 
   return (
     <div className="flex-col">
-        <div className="flex-1 space-y-4 p-8 pt-6">
-            <BillboardsClient data={formattedBillboards} />
-        </div>
+      <div className="flex-1 space-y-4 p-8 pt-6 sm:p-6 ">
+        <BillboardsClient data={formattedBillboards} />
+      </div>
     </div>
-  )
+  );
 }
 
 export default Billboards;
