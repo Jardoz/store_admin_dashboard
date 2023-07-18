@@ -2,6 +2,8 @@ import prismadb from "@/lib/prismadb";
 import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 
+export const revalidate = 0;
+
 export async function GET(
     req: Request,
     { params }: {params: { categoryId: string }}
@@ -14,6 +16,9 @@ export async function GET(
             const category = await prismadb.category.findUnique({
                 where: {
                     id: params.categoryId,
+                },
+                include: {
+                    billboard: true
                 }
             })
 
@@ -30,7 +35,6 @@ export async function PATCH(
     ) {
         try {
             const { userId } = auth()
-            // const { user } = useUser()
             const { name, billboardId } = await req.json()
 
             if(!userId) {
@@ -41,7 +45,7 @@ export async function PATCH(
                 return new NextResponse("Name is required", { status: 400 })
             }
 
-            if(!billboardId) {
+            if(!billboardId ) {
                 return new NextResponse("Billboard id is required", { status: 400 })
             }
 
@@ -52,6 +56,7 @@ export async function PATCH(
             const storeByUserId = await prismadb.store.findFirst({
                 where: {
                     id: params.storeId,
+                    //@ts-ignore
                     userId
                 }
             })
@@ -66,7 +71,7 @@ export async function PATCH(
                 },
                 data: {
                     name,
-                    billboardId
+                    billboardId 
                 }
             })
 
@@ -83,7 +88,6 @@ export async function DELETE(
     ) {
         try {
             const { userId } = auth()
-            // const { user } = useUser()
 
             if(!userId) {
                 new NextResponse('Unauthenticated', { status: 401 })
@@ -96,6 +100,7 @@ export async function DELETE(
             const storeByUserId = await prismadb.store.findFirst({
                 where: {
                     id: params.storeId,
+                    //@ts-ignore
                     userId
                 }
             })

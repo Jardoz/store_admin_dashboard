@@ -3,6 +3,8 @@ import { NextResponse } from "next/server";
 
 import prismadb from "@/lib/prismadb";
 
+export const revalidate = 0;
+
 export async function POST(
     req: Request,
     { params } : { params: { 
