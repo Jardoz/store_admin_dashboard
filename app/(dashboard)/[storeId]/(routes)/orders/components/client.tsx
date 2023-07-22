@@ -1,7 +1,5 @@
 "use client"
 
-import { useParams, useRouter } from "next/navigation"
-
 import { Heading } from "@/components/ui/heading"
 import { Separator } from "@/components/ui/separator"
 import { DataTable } from "@/components/ui/dataTable"
@@ -13,8 +11,6 @@ interface OrdersClientProps {
 }
 
 export const OrdersClient: React.FC<OrdersClientProps> = ({ data }) => {
-  const router = useRouter();
-  const params = useParams();
 
   return (
     <>

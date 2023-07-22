@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation"
-import { auth } from "@clerk/nextjs"
+import { auth } from "@clerk/nextjs/server"
 import prismadb from "@/lib/prismadb";
 import NavBar from "@/components/navbar";
 
@@ -10,7 +10,7 @@ children,
     children: React.ReactNode;
     params: { storeId: string }
 }) {
-    const { userId } = auth()
+    const { userId } = auth();
 
     if(!userId) {
         redirect('/sign-in')
