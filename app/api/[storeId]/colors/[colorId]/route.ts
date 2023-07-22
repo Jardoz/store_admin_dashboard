@@ -51,6 +51,7 @@ export async function PATCH(
             const storeByUserId = await prismadb.store.findFirst({
                 where: {
                     id: params.storeId,
+                    //@ts-ignore
                     userId
                 }
             })
@@ -94,6 +95,7 @@ export async function DELETE(
             const storeByUserId = await prismadb.store.findFirst({
                 where: {
                     id: params.storeId,
+                    //@ts-ignore
                     userId
                 }
             })
