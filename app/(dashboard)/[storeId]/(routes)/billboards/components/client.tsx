@@ -18,16 +18,19 @@ interface BillboardsClientProps {
 export const BillboardsClient: React.FC<BillboardsClientProps> = ({ data }) => {
   const router = useRouter();
   const params = useParams();
+  const description = `Manage billboards for your store \n (In demo version available only 1 billboard)`
+      
 
   return (
     <>
       <div className="flex items-center justify-between ">
         <Heading
           title={`Billboards (${data.length})`}
-          description="Manage billboards for your store"
-        />
+          description={description}
+          />
         <Button
           className="sm:ml-3"
+          disabled={data.length >= 1}
           onClick={() => router.push(`/${params.storeId}/billboards/new`)}
         >
           <Plus className="mr-2 h-4 w-4" />

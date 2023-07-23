@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Store } from "@prisma/client";
 import {
   Check,
@@ -37,7 +37,7 @@ interface StoreSwitcherProps extends PopoverTriggerProps {
   items: Store[];
 }
 
-export function StoreSwitcher({ className, items = [] }: StoreSwitcherProps) {
+export  function StoreSwitcher({ className, items = [] }: StoreSwitcherProps) {
   const storeModal = useStoreModal();
   const params = useParams();
   const router = useRouter();
@@ -47,6 +47,12 @@ export function StoreSwitcher({ className, items = [] }: StoreSwitcherProps) {
     label: item.name,
     value: item.id,
   }));
+
+  useEffect(() => {
+    if(items.length === 1 || items.length > 1){
+      storeModal.setStore(items.length)
+    }
+  }, [])
 
   const currentStore = formattedItems.find(
     (item) => item.value === params.storeId

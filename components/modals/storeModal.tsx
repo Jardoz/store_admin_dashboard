@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import React, { useState } from "react";
 import * as s from "zod";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
@@ -19,12 +19,16 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import axios from "axios";
+import { Checkbox } from "../ui/checkbox";
+import { Label } from "../ui/label";
 
 const formSchema = s.object({
   name: s.string().min(1),
 });
 
+
 export const StoreModal = () => {
+
   const storeModal = useStoreModal();
 
   const [loading, setLoading] = useState(false);
@@ -38,6 +42,7 @@ export const StoreModal = () => {
         setLoading(true)
 
         const response = await axios.post('/api/stores', values)
+        storeModal.addStore()
 
         window.location.assign(`/${response.data.id}`)
         
@@ -57,39 +62,52 @@ export const StoreModal = () => {
     >
       <div>
         <div className="space-y-4 py-2 pb-4">
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)}>
-              <FormField
-                control={form.control}
-                name="name"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Name</FormLabel>
-                    <FormControl>
-                      <Input
-                        disabled={loading}
-                        placeholder="E-Commerce"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <div className="pt-6 space-x-2 flex items-center justify-end">
-                <Button
-                  disabled={loading}
-                  variant="outline"
-                  onClick={storeModal.onClose}
-                >
-                  Cancel
-                </Button>
-                <Button disabled={loading} type="submit">
-                  Continue
-                </Button>
+          {storeModal.count === 1 && (
+            <div>
+              <div className="flex items-center space-x-2">
+                <Checkbox
+                  id="store_count"
+                  onCheckedChange={storeModal.onClose}
+                />
+                <Label htmlFor="store_count">In demo version available only one store per user.</Label>
               </div>
-            </form>
-          </Form>
+            </div>
+          )}
+          {storeModal.count === 0 && (
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(onSubmit)}>
+                <FormField
+                  control={form.control}
+                  name="name"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Name</FormLabel>
+                      <FormControl>
+                        <Input
+                          disabled={loading}
+                          placeholder="E-Commerce"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <div className="pt-6 space-x-2 flex items-center justify-end">
+                  <Button
+                    disabled={loading}
+                    variant="outline"
+                    onClick={storeModal.onClose}
+                  >
+                    Cancel
+                  </Button>
+                  <Button disabled={loading} type="submit">
+                    Continue
+                  </Button>
+                </div>
+              </form>
+            </Form>
+          )}
         </div>
       </div>
     </Modal>
