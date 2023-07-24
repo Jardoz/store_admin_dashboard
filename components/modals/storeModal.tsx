@@ -62,18 +62,7 @@ export const StoreModal = () => {
     >
       <div>
         <div className="space-y-4 py-2 pb-4">
-          {storeModal.count === 1 && (
-            <div>
-              <div className="flex items-center space-x-2">
-                <Checkbox
-                  id="store_count"
-                  onCheckedChange={storeModal.onClose}
-                />
-                <Label htmlFor="store_count">In demo version available only one store per user.</Label>
-              </div>
-            </div>
-          )}
-          {storeModal.count === 0 && (
+          {storeModal.count === 0 ? (
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)}>
                 <FormField
@@ -107,6 +96,18 @@ export const StoreModal = () => {
                 </div>
               </form>
             </Form>
+          ) : (
+            <div>
+              <div className="flex items-center space-x-2">
+                <Checkbox
+                  id="store_count"
+                  onCheckedChange={storeModal.onClose}
+                />
+                <Label htmlFor="store_count">
+                  In demo version available only one store per user.
+                </Label>
+              </div>
+            </div>
           )}
         </div>
       </div>
